@@ -1,6 +1,13 @@
+// backend/server.js
 const express = require('express');
+const cors = require('cors');
+const connectDB = require('./config/db');
 const app = express();
+
+app.use(cors()); // ⚡ CHO PHÉP FRONTEND TRUY CẬP
 app.use(express.json());
+
+connectDB();
 
 // Import route
 const userRoutes = require('./routes/user');
