@@ -10,6 +10,7 @@ export default function AddUser({ onAdded }) {
     e.preventDefault();
 
     //
+    //
     // ✅ Validation
     if (!name.trim()) {
       alert("Name không được để trống");
