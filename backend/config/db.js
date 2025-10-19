@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const MONGO_URI = 'mongodb://atlas-sql-68e7121a84437f522fb7fe96-oaoray.a.query.mongodb.net/sample_mflix?ssl=true&authSource=admin';
+    const MONGO_URI = 'mongodb+srv://group13:12345@cluster0.gboi7rr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
     await mongoose.connect(MONGO_URI, {
       useNewUrlParser: true,

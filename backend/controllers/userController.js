@@ -1,18 +1,16 @@
-//backend/controllers/userController.js
-let users = [
-  { id: 1, name: "A", email: "a@example.com" },
-  { id: 2, name: "B", email: "b@example.com" }
-];
-let nextId = 3;
+// backend/controllers/userController.js
+const User = require('../models/User');
 
-exports.getUsers = (req, res) => {
+exports.getUsers = async (req, res) => {
+  const users = await User.find();
   res.json(users);
 };
 
-exports.createUser = (req, res) => {
+exports.createUser = async (req, res) => {
   const { name, email } = req.body;
-  if (!name || !email) return res.status(400).json({ message: "Name and email required" });
-  const newUser = { id: nextId++, name, email };
-  users.push(newUser);
+  if (!name || !email) return res.status(400).json({ message: 'Name and email required' });
+  const exists = await User.findOne({ email });
+  if (exists) return res.status(400).json({ message: 'Email exists' });
+  const newUser = await User.create({ name, email });
   res.status(201).json(newUser);
 };
