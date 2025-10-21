@@ -9,6 +9,12 @@ app.use(express.json());
 
 connectDB();
 
+// server.js
+const authRoutes = require('./routes/auth');
+app.use('/api/auth', authRoutes); // Thêm tiền tố /api/auth cho các route xác thực
+
+
+
 // Import route
 const userRoutes = require('./routes/user');
 
