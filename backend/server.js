@@ -33,13 +33,13 @@
 //   .then(() => console.log("MongoDB connected"))
 //   .catch(err => console.log(err));
 
-const express = require("express");
-const cors = require("cors");
-require("dotenv").config();
-const connectDB = require("./config/db");
+// const express = require("express");
+// const cors = require("cors");
+// require("dotenv").config();
+// const connectDB = require("./config/db");
 
-const app = express();
-// const express = require('express');
+// const app = express();
+// // const express = require('express');
 // const cors = require('cors');
 // const connectDB = require('./config/db');
 // const app = express();
@@ -87,8 +87,8 @@ const authRoutes = require("./routes/auth");
 app.use("/api", userRoutes);
 app.use("/api/auth", authRoutes);
 // Import routes
-const userRoutes = require("./routes/user");
-const authRoutes = require("./routes/auth"); // ✅ đặt đúng tên file
+// const userRoutes = require("./routes/user");
+// const authRoutes = require("./routes/auth"); // ✅ đặt đúng tên file
 
 // Dùng routes
 app.use("/api", userRoutes);       // Cũ: CRUD user
