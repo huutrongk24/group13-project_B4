@@ -36,34 +36,68 @@ exports.getProfile = async (req, res) => {
 //   }
 // };
 
+// exports.updateProfile = async (req, res) => {
+//     try {
+//       const { name, email, password, avatar } = req.body;
+//       const user = await User.findById(req.user.id);
+//       if (!user) return res.status(404).json({ message: "User không tồn tại" });
+  
+//       // Cập nhật thông tin
+//       if (name) user.name = name;
+  
+//       if (email && email !== user.email) {
+//         const existingUser = await User.findOne({ email });
+//         if (existingUser) {
+//           return res.status(400).json({ message: "Email đã tồn tại" });
+//         }
+//         user.email = email;
+//       }
+  
+//       if (avatar) user.avatar = avatar;
+//       if (password) {
+//         const hashed = await bcrypt.hash(password, 10);
+//         user.password = hashed;
+//       }
+//       // Cập nhật user trong DB
+//       const updatedUser = await User.findByIdAndUpdate(req.params.id, updateData, { new: true });
+//       res.json(updatedUser);
+  
+//       await user.save();
+//       res.json({ message: "Cập nhật thành công", user });
+//     } catch (err) {
+//       console.error(err);
+//       res.status(500).json({ message: "Lỗi server" });
+//     }
+//   };
+
 exports.updateProfile = async (req, res) => {
-    try {
-      const { name, email, password, avatar } = req.body;
-      const user = await User.findById(req.user.id);
-      if (!user) return res.status(404).json({ message: "User không tồn tại" });
-  
-      // Cập nhật thông tin
-      if (name) user.name = name;
-  
-      if (email && email !== user.email) {
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-          return res.status(400).json({ message: "Email đã tồn tại" });
-        }
-        user.email = email;
-      }
-  
-      if (avatar) user.avatar = avatar;
-      if (password) {
-        const hashed = await bcrypt.hash(password, 10);
-        user.password = hashed;
-      }
-  
-      await user.save();
-      res.json({ message: "Cập nhật thành công", user });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: "Lỗi server" });
+  try {
+    const { name, email, password, avatar } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User không tồn tại" });
+
+    if (name) user.name = name;
+
+    if (email && email !== user.email) {
+      const existingUser = await User.findOne({ email });
+      if (existingUser) return res.status(400).json({ message: "Email đã tồn tại" });
+      user.email = email;
     }
-  };
+
+    if (avatar) user.avatar = avatar;
+    if (password) {
+      const hashed = await bcrypt.hash(password, 10);
+      user.password = hashed;
+    }
+
+    await user.save();
+
+    const userToReturn = user.toObject();
+    delete userToReturn.password; // không gửi password về client
+    res.json({ message: "Cập nhật thành công", user: userToReturn });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Lỗi server" });
+  }
+};
   //
