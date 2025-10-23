@@ -22,6 +22,7 @@
 // }
 
 // export default App;
+import Profile from './pages/Profile';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Signup from './components/Signup';
@@ -37,7 +38,11 @@ function App() {
         <nav>
           <Link to="/signup" style={{ marginRight: 10 }}>Đăng ký</Link>
           <Link to="/login" style={{ marginRight: 10 }}>Đăng nhập</Link>
-          <Link to="/users">Danh sách User</Link>
+
+          <Link to="/users" style={{ marginRight: 10 }}>Danh sách User</Link>
+
+          {/* === THÊM DÒNG NÀY VÀO === */}
+          <Link to="/profile">Thông tin cá nhân</Link>
         </nav>
 
         <Routes>
@@ -45,6 +50,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/users" element={<UserList />} />
           <Route path="/add" element={<AddUser />} />
+          <Route path="/profile" element={<Profile />} />  
         </Routes>
       </div>
     </Router>
