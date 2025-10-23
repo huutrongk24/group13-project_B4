@@ -4,9 +4,9 @@ const auth = require("../middlewares/authMiddleware");
 const { getProfile, updateProfile } = require("../controllers/profileController");
 
 // Xem profile
-router.get("/", authMiddleware, getProfile);
+router.get("/", auth, getProfile);
 
 // Cập nhật profile
-router.put("/", authMiddleware, updateProfile);
+router.put("/", auth, updateProfile);
 
 module.exports = router;
