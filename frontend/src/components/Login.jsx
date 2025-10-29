@@ -80,7 +80,7 @@
 // }
 import React, { useState } from 'react';
 import api from '../api';
-import { useNavigate } from 'react-router-dom'; // <--- Thêm dòng này
+import { useNavigate, Link } from 'react-router-dom'; // <--- Thêm dòng này
 
 export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -122,6 +122,11 @@ export default function Login() {
         /><br />
         <button type="submit">Đăng nhập</button>
       </form>
+
+      <p>
+        <Link to="/forgot-password">Quên mật khẩu</Link>
+      </p>
+
       <p>{msg}</p>
     </div>
   );
