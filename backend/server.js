@@ -22,12 +22,14 @@ connectDB();
 const userRoutes = require("./routes/user");
 const authRoutes = require("./routes/auth");
 
+
 const profileRoutes = require("./routes/profile");
 app.use("/api/profile", profileRoutes);
 
 // Dùng routes
 app.use("/api", userRoutes);   
 app.use("/api/auth", authRoutes);  
+
 
 // Khởi động server
 const PORT = process.env.PORT || 3000;
