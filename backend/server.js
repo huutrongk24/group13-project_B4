@@ -8,8 +8,6 @@ require("dotenv").config(); // Nếu bạn có file .env
 const app = express();
 
 
-
-
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -21,7 +19,7 @@ connectDB();
 // Import routes
 const userRoutes = require("./routes/user");
 const authRoutes = require("./routes/auth");
-
+const adminRoutes = require("./routes/admin");
 
 const profileRoutes = require("./routes/profile");
 app.use("/api/profile", profileRoutes);
@@ -29,6 +27,7 @@ app.use("/api/profile", profileRoutes);
 // Dùng routes
 app.use("/api", userRoutes);   
 app.use("/api/auth", authRoutes);  
+app.use("/api/admin", adminRoutes);
 
 
 // Khởi động server
