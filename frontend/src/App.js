@@ -29,6 +29,7 @@ import Signup from './components/Signup';
 import Login from './components/Login';
 import UserList from './components/UserList';
 import AddUser from './components/AddUser';
+import AdminPage from './components/AdminPage';
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path="/users" element={<UserList />} />
           <Route path="/add" element={<AddUser />} />
           <Route path="/profile" element={<Profile />} />  
+          <Route path="/admin" element={<AdminPage/>} />
         </Routes>
       </div>
     </Router>

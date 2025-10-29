@@ -40,24 +40,72 @@
 //     alert('Đã đăng xuất!');
 //     window.location.href = '/login';
 // };
+// import React, { useState } from 'react';
+// import api from '../api';
+
+// export default function Login() {
+//   const [form, setForm] = useState({ email: '', password: '' });
+//   const [msg, setMsg] = useState('');
+
+//   const handleLogin = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const res = await api.post('/login', form);
+//       localStorage.setItem('token', res.data.token);
+//       setMsg('Đăng nhập thành công!');
+//     } catch (err) {
+//       setMsg(err.response?.data?.message || 'Lỗi khi đăng nhập');
+//     }
+//   };
+// //9999999
+//   return (
+//     <div style={{ marginTop: 20 }}>
+//       <h3>Đăng nhập</h3>
+//       <form onSubmit={handleLogin}>
+//         <input
+//           placeholder="Email"
+//           type="email"
+//           onChange={(e) => setForm({ ...form, email: e.target.value })}
+//         /><br />
+//         <input
+//           placeholder="Mật khẩu"
+//           type="password"
+//           onChange={(e) => setForm({ ...form, password: e.target.value })}
+//         /><br />
+//         <button type="submit">Đăng nhập</button>
+//       </form>
+//       <p>{msg}</p>
+//     </div>
+//   );
+// }
 import React, { useState } from 'react';
 import api from '../api';
+import { useNavigate } from 'react-router-dom'; // <--- Thêm dòng này
 
 export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [msg, setMsg] = useState('');
+  const navigate = useNavigate(); // <--- Thêm dòng này
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.post('/login', form);
+      const res = await api.post('/auth/login', form); // Đảm bảo đúng route backend
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('user', JSON.stringify(res.data.user)); // Lưu thông tin user
       setMsg('Đăng nhập thành công!');
+
+      // 🧠 Kiểm tra role
+      if (res.data.user.role === 'admin') {
+        navigate('/admin'); // <-- Chuyển sang trang admin
+      } else {
+        navigate('/home'); // <-- Chuyển sang trang người dùng bình thường
+      }
     } catch (err) {
       setMsg(err.response?.data?.message || 'Lỗi khi đăng nhập');
     }
   };
-//9999999
+
   return (
     <div style={{ marginTop: 20 }}>
       <h3>Đăng nhập</h3>
