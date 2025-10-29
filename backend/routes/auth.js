@@ -43,13 +43,41 @@
 
 
 
-const express = require('express');
-const router = express.Router();
-const { signup, login, logout } = require('../controllers/authController');
+// const express = require('express');
+// const router = express.Router();
+// const { signup, login, logout } = require('../controllers/authController');
 
-router.post('/signup', signup);
-router.post('/login', login);
-router.post('/logout', logout);
+// router.post('/signup', signup);
+// router.post('/login', login);
+// router.post('/logout', logout);
+
+// module.exports = router;
+
+
+const express = require("express");
+const router = express.Router();
+const {
+  signup,
+  login,
+  logout,
+  forgotPassword,
+  resetPassword,
+} = require("../controllers/authController");
+
+// 🟩 Đăng ký
+router.post("/signup", signup);
+
+// 🟦 Đăng nhập
+router.post("/login", login);
+
+// 🟥 Đăng xuất
+router.post("/logout", logout);
+
+// 🟨 Quên mật khẩu (gửi email đặt lại)
+router.post("/forgot-password", forgotPassword);
+
+// 🟪 Đặt lại mật khẩu (từ link email)
+router.post("/reset-password/:token", resetPassword);
 
 module.exports = router;
 
