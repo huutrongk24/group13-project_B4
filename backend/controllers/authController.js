@@ -99,6 +99,32 @@ exports.signup = async (req, res) => {
 };
 
 // Đăng nhập
+// exports.login = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     // Kiểm tra user tồn tại
+//     const user = await User.findOne({ email });
+//     if (!user) return res.status(400).json({ message: "Email không tồn tại" });
+
+//     // Kiểm tra mật khẩu
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) return res.status(400).json({ message: "Sai mật khẩu" });
+
+//     // Tạo JWT token
+//     const token = jwt.sign({ id: user._id }, "secret123", { expiresIn: "1h" });
+
+//     res.json({
+//       message: "Đăng nhập thành công",
+//       token,
+//       user: { id: user._id, name: user.name, email: user.email },
+//     });
+//   } catch (err) {
+//     console.error("Lỗi đăng nhập:", err);
+//     res.status(500).json({ message: "Lỗi server khi đăng nhập" });
+//   }
+// };
+// Đăng nhập
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -111,19 +137,31 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Sai mật khẩu" });
 
-    // Tạo JWT token
-    const token = jwt.sign({ id: user._id }, "secret123", { expiresIn: "1h" });
+    // 🔹 Tạo JWT token có chứa role
+    const token = jwt.sign(
+      { id: user._id, role: user.role }, // thêm role vào token
+      "secret123",
+      { expiresIn: "1h" }
+    );
 
+    // 🔹 Trả về thông tin user + role
     res.json({
       message: "Đăng nhập thành công",
       token,
-      user: { id: user._id, name: user.name, email: user.email },
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role, // thêm dòng này
+      },
     });
   } catch (err) {
     console.error("Lỗi đăng nhập:", err);
     res.status(500).json({ message: "Lỗi server khi đăng nhập" });
   }
 };
+
+
 
 // Đăng xuất
 exports.logout = async (req, res) => {
