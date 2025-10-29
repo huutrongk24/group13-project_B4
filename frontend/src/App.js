@@ -30,6 +30,7 @@ import Login from './components/Login';
 import UserList from './components/UserList';
 import AddUser from './components/AddUser';
 import AdminPage from './components/AdminPage';
+import ForgotPassword from './components/ForgotPassword';
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
           <Route path="/add" element={<AddUser />} />
           <Route path="/profile" element={<Profile />} />  
           <Route path="/admin" element={<AdminPage/>} />
+          <Route path="/forgot-password" element={<ForgotPassword/>} />
         </Routes>
       </div>
     </Router>
