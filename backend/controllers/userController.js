@@ -75,16 +75,30 @@ exports.uploadAvatar = async (req, res) => {
     const user = await User.findById(id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    // Ảnh được lưu bởi Cloudinary qua multer
-    const imageUrl = req.file.path;
+    // Kiểm tra có file không
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    // Dữ liệu từ Cloudinary
+    const imageUrl = req.file.path || req.file.url; // <--- Thêm dòng này
+
+    if (!imageUrl) {
+      return res.status(400).json({ message: "Upload failed: no image URL received" });
+    }
 
     // Cập nhật avatar URL
     user.avatar = imageUrl;
     await user.save();
 
-    res.json({ message: "Avatar uploaded successfully", avatar: imageUrl });
+    res.json({
+      message: "Avatar uploaded successfully",
+      avatar: imageUrl,
+      user,
+    });
   } catch (err) {
     console.error("Upload avatar error:", err);
     res.status(500).json({ message: "Server error uploading avatar" });
   }
 };
+
