@@ -453,36 +453,6 @@ const User = require("../models/User");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-// ---------------------
-// 🟩 Signup
-// ---------------------
-// exports.signup = async (req, res) => {
-//   try {
-//     const { name, email, password, role } = req.body;
-
-//     // Kiểm tra email trùng
-//     const existingUser = await User.findOne({ email });
-//     if (existingUser)
-//       return res.status(400).json({ message: "Email đã tồn tại" });
-
-//     // Mã hóa mật khẩu
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     // Tạo user mới
-//     const newUser = new User({
-//       name,
-//       email,
-//       password: hashedPassword,
-//       role: role || "admin", // ⚠️ sửa lại cho khớp enum trong model (admin, teacher, user, v.v.)
-//     });
-
-//     await newUser.save();
-//     res.json({ message: "Đăng ký thành công" });
-//   } catch (err) {
-//     console.error("Lỗi đăng ký:", err);
-//     res.status(500).json({ message: "Lỗi server khi đăng ký" });
-//   }
-// };
 
 // 🟩 Signup
 exports.signup = async (req, res) => {

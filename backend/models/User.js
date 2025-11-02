@@ -1,6 +1,6 @@
 
+// backend/models/User.js
 const bcrypt = require("bcryptjs");
-
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: { type: String, enum: ["user", "admin"], default: "user" },
+  avatar: { type: String, default: "" } // THÊM TRƯỜNG AVATAR
 });
 
 // Hash mật khẩu trước khi lưu
@@ -24,5 +25,3 @@ userSchema.methods.comparePassword = async function(candidatePassword) {
 };
 
 module.exports = mongoose.model("User", userSchema);
-
-////////////////////

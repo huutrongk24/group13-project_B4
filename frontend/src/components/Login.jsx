@@ -8,18 +8,80 @@
 
 //     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+// // Trong hàm onSubmit của Login.jsx
+
+// const onSubmit = async e => {
+//     e.preventDefault();
+//     try {
+//         const res = await axios.post('http://localhost:3000/api/auth/login', formData);
+//         localStorage.setItem('token', res.data.token);
+//         alert('Đăng nhập thành công!');
+//         window.location.href = '/profile';
+//     } catch (err) {
+//         // In ra toàn bộ đối tượng lỗi để kiểm tra
+//         console.error("CHI TIẾT LỖI:", err); 
+
+//         // Kiểm tra và hiển thị thông báo lỗi một cách an toàn
+//         const errorMessage = err.response?.data?.message ?? "Có lỗi xảy ra từ máy chủ. Vui lòng thử lại.";
+//         alert(`Đăng nhập thất bại: ${errorMessage}`);
+//     }
+// };
+
+//     return (
+//         <form onSubmit={onSubmit}>
+//             <h2>Đăng Nhập</h2>
+//             <input type="email" name="email" value={email} onChange={onChange} placeholder="Email" required />
+//             <input type="password" name="password" value={password} onChange={onChange} placeholder="Mật khẩu" required />
+//             <button type="submit">Đăng Nhập</button>
+//         </form>
+//     );
+// };
+
+// export default Login;
+
+
+
+
+
+
+
+
+
+// // frontend/src/components/Login.jsx
+// import React, { useState } from 'react';
+// import axios from 'axios';
+// import { useNavigate } from 'react-router-dom'; // 1. Import hook để điều hướng
+// import { jwtDecode } from 'jwt-decode';      // 2. Import thư viện giải mã token
+
+// const Login = () => {
+//     const [formData, setFormData] = useState({ email: '', password: '' });
+//     const { email, password } = formData;
+//     const navigate = useNavigate(); // Khởi tạo hook
+
+//     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
 //     const onSubmit = async e => {
 //         e.preventDefault();
 //         try {
 //             const res = await axios.post('http://localhost:3000/api/auth/login', formData);
-//             // Lưu token vào localStorage
-//             localStorage.setItem('token', res.data.token);
+            
+//             // 3. Lưu token vào localStorage
+//             const token = res.data.token;
+//             localStorage.setItem('token', token);
+
+//             // 4. 🚀 GIẢI MÃ TOKEN VÀ LƯU VAI TRÒ (ROLE)
+//             const decodedUser = jwtDecode(token).user; // Giải mã để lấy payload { user: { id, role } }
+//             localStorage.setItem('userRole', decodedUser.role); // Lưu role vào localStorage
+
 //             alert('Đăng nhập thành công!');
-//             // Chuyển hướng đến trang profile hoặc trang chính
-//             window.location.href = '/profile'; // Ví dụ chuyển hướng đơn giản
+            
+//             // 5. Điều hướng bằng navigate thay vì window.location.href
+//             navigate('/profile'); 
+            
 //         } catch (err) {
-//             console.error('Lỗi đăng nhập:', err.response.data.message);
-//             alert(`Đăng nhập thất bại: ${err.response.data.message}`);
+//             console.error("CHI TIẾT LỖI:", err);
+//             const errorMessage = err.response?.data?.message ?? "Có lỗi xảy ra từ máy chủ. Vui lòng thử lại.";
+//             alert(`Đăng nhập thất bại: ${errorMessage}`);
 //         }
 //     };
 
@@ -35,99 +97,146 @@
 
 // export default Login;
 
-// const handleLogout = () => {
-//     localStorage.removeItem('token');
-//     alert('Đã đăng xuất!');
-//     window.location.href = '/login';
-// };
+
+
+
+
+
+
+
+// //4
+// //frontend/src/components/Login.jsx
 // import React, { useState } from 'react';
-// import api from '../api';
+// import axios from 'axios';
+// // ✅ 1. Import thêm 'Link' vào đây
+// import { useNavigate, Link } from 'react-router-dom'; 
+// import { jwtDecode } from 'jwt-decode';
 
-// export default function Login() {
-//   const [form, setForm] = useState({ email: '', password: '' });
-//   const [msg, setMsg] = useState('');
+// const Login = () => {
+//     const [formData, setFormData] = useState({ email: '', password: '' });
+//     const { email, password } = formData;
+//     const navigate = useNavigate();
 
-//   const handleLogin = async (e) => {
-//     e.preventDefault();
-//     try {
-//       const res = await api.post('/login', form);
-//       localStorage.setItem('token', res.data.token);
-//       setMsg('Đăng nhập thành công!');
-//     } catch (err) {
-//       setMsg(err.response?.data?.message || 'Lỗi khi đăng nhập');
-//     }
-//   };
-// //9999999
-//   return (
-//     <div style={{ marginTop: 20 }}>
-//       <h3>Đăng nhập</h3>
-//       <form onSubmit={handleLogin}>
-//         <input
-//           placeholder="Email"
-//           type="email"
-//           onChange={(e) => setForm({ ...form, email: e.target.value })}
-//         /><br />
-//         <input
-//           placeholder="Mật khẩu"
-//           type="password"
-//           onChange={(e) => setForm({ ...form, password: e.target.value })}
-//         /><br />
-//         <button type="submit">Đăng nhập</button>
-//       </form>
-//       <p>{msg}</p>
-//     </div>
-//   );
-// }
+//     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+//     const onSubmit = async e => {
+//         e.preventDefault();
+//         try {
+//             const res = await axios.post('http://localhost:3000/api/auth/login', formData);
+            
+//             const token = res.data.token;
+//             localStorage.setItem('token', token);
+
+//             const decodedUser = jwtDecode(token).user;
+//             localStorage.setItem('userRole', decodedUser.role);
+
+//             alert('Đăng nhập thành công!');
+            
+//             navigate('/profile'); 
+            
+//         } catch (err) {
+//             console.error("CHI TIẾT LỖI:", err);
+//             const errorMessage = err.response?.data?.message ?? "Có lỗi xảy ra từ máy chủ. Vui lòng thử lại.";
+//             alert(`Đăng nhập thất bại: ${errorMessage}`);
+//         }
+//     };
+
+//     return (
+//         <form onSubmit={onSubmit}>
+//             <h2>Đăng Nhập</h2>
+//             <input type="email" name="email" value={email} onChange={onChange} placeholder="Email" required />
+//             <input type="password" name="password" value={password} onChange={onChange} placeholder="Mật khẩu" required />
+//             <button type="submit">Đăng Nhập</button>
+
+//             {/* ✅ 2. THÊM LINK QUÊN MẬT KHẨU Ở ĐÂY */}
+//             <div style={{ marginTop: '15px', textAlign: 'center' }}>
+//                 <Link to="/forgot-password">Quên mật khẩu?</Link>
+//             </div>
+//         </form>
+//     );
+// };
+
+// export default Login;
+
+
+// frontend/src/components/Login.jsx
 import React, { useState } from 'react';
-import api from '../api';
-import { useNavigate, Link } from 'react-router-dom'; // <--- Thêm dòng này
+import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom'; 
+import { jwtDecode } from 'jwt-decode';
 
-export default function Login() {
-  const [form, setForm] = useState({ email: '', password: '' });
-  const [msg, setMsg] = useState('');
-  const navigate = useNavigate(); // <--- Thêm dòng này
+const Login = () => {
+    const [formData, setFormData] = useState({ email: '', password: '' });
+    const { email, password } = formData;
+    const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    // const onSubmit = async e => {
+    //     e.preventDefault();
+    //     try {
+    //         const res = await axios.post('http://localhost:3000/api/auth/login', formData);
+            
+    //         console.log("✅ Response từ server:", res.data); // Thêm dòng này để debug
+            
+    //         const token = res.data.token;
+    //         localStorage.setItem('token', token);
+
+    //         // 🔴 SỬA LỖI Ở ĐÂY:
+    //         // Backend trả về user data trong response, không cần decode từ token
+    //         const decoded = jwtDecode(token);
+    //         localStorage.setItem('userRole', decoded.role); // Lấy role từ token
+    //         localStorage.setItem('userData', JSON.stringify(res.data.user)); // Lưu user data từ response
+
+    //         alert('Đăng nhập thành công!');
+    //         navigate('/profile'); 
+            
+    //     } catch (err) {
+    //         console.error("CHI TIẾT LỖI:", err);
+    //         const errorMessage = err.response?.data?.message ?? "Có lỗi xảy ra từ máy chủ. Vui lòng thử lại.";
+    //         alert(`Đăng nhập thất bại: ${errorMessage}`);
+    //     }
+    // };
+    // frontend/src/components/Login.jsx
+const onSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await api.post('/auth/login', form); // Đảm bảo đúng route backend
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user', JSON.stringify(res.data.user)); // Lưu thông tin user
-      setMsg('Đăng nhập thành công!');
+        const res = await axios.post('http://localhost:3000/api/auth/login', formData);
+        
+        console.log("✅ Response từ server:", res.data);
 
-      // 🧠 Kiểm tra role
-      if (res.data.user.role === 'admin') {
-        navigate('/admin'); // <-- Chuyển sang trang admin
-      } else {
-        navigate('/home'); // <-- Chuyển sang trang người dùng bình thường
-      }
+        const token = res.data.token;
+        localStorage.setItem('token', token);
+        
+        // Lưu thông tin user từ response
+        localStorage.setItem('userData', JSON.stringify(res.data.user));
+        localStorage.setItem('userRole', res.data.user.role);
+
+        alert('Đăng nhập thành công!');
+        console.log("🔄 Đang chuyển hướng đến /profile...");
+        
+        // Chuyển hướng
+        navigate('/profile');
+        
     } catch (err) {
-      setMsg(err.response?.data?.message || 'Lỗi khi đăng nhập');
+        console.error("CHI TIẾT LỖI:", err);
+        const errorMessage = err.response?.data?.message ?? "Có lỗi xảy ra từ máy chủ. Vui lòng thử lại.";
+        alert(`Đăng nhập thất bại: ${errorMessage}`);
     }
-  };
+};
 
-  return (
-    <div style={{ marginTop: 20 }}>
-      <h3>Đăng nhập</h3>
-      <form onSubmit={handleLogin}>
-        <input
-          placeholder="Email"
-          type="email"
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-        /><br />
-        <input
-          placeholder="Mật khẩu"
-          type="password"
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-        /><br />
-        <button type="submit">Đăng nhập</button>
-      </form>
+    return (
+        <form onSubmit={onSubmit}>
+            <h2>Đăng Nhập</h2>
+            <input type="email" name="email" value={email} onChange={onChange} placeholder="Email" required />
+            <input type="password" name="password" value={password} onChange={onChange} placeholder="Mật khẩu" required />
+            <button type="submit">Đăng Nhập</button>
 
-      <p>
-        <Link to="/forgot-password">Quên mật khẩu</Link>
-      </p>
+            <div style={{ marginTop: '15px', textAlign: 'center' }}>
+                <Link to="/forgot-password">Quên mật khẩu?</Link>
+            </div>
+        </form>
+    );
+};
 
-      <p>{msg}</p>
-    </div>
-  );
-}
+export default Login;
